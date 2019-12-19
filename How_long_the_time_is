@@ -1,0 +1,57 @@
+#The modules we need 
+import os
+import csv
+ipython
+import random
+import expyriment
+import sys
+
+#Creating an expyriment object
+exp = expyriment.design.Experiment(name="How long the time is ?")
+expyriment.control.set_develop_mode(on=True)# Switches on development mode, to be put as a comment in definitve experiment
+
+#Activating the experiment
+expyriment.control.initialize(exp)
+
+#Creating my variable names
+exp.data_variable_names = ["Block", "Trial", "RT"]
+
+# Preparing and preloading all the text I need
+
+hello = expyriment.stimuli.TextLine(text="Hello , welcome to /n How long the time is ?")
+hello.preload()
+
+pascal = expyriment.stimuli.TextLine(text = "L’un dit : il y a deux heures ; l’autre dit : il n’y a que trois quarts d’heure. Je regarde ma montre et je dis à l’un : vous vous ennuyez, et à l’autre : le temps ne vous dure guère, car il y a une heure et demie. Et je me moque de ceux qui disent que le temps me dure à moi et que j’en juge par fantaisie.
+Ils ne savent pas que j’en juge par ma montre. Blaise Pascal")
+pascal.preload()
+
+watch = expyriment.stimuli.TextLine(text= "Remove your watch if you have one please")
+watch.preload()
+
+task = expyriment.stimuli.TextLine(text="You'll have to discount mentally a certain amount of time and press a key as soon as you're done. Simple isn't it ? Press a key if you're all set, you'll start training")
+task.preload()
+
+training = expyriment.stimuli.TextLine(text="Now the screen will discount 15 seconds to train you. Whenever you're ready to start, press a tab")
+training.preload()
+
+#Presetting my blocks and trials ?
+
+
+
+
+
+exp.data.add([])# Adds some collected data
+
+
+
+#Actually starting the experiment, ask for a participant number
+expyriment.control.start()
+
+expyriment.control.end()
+
+
+#First step (optional): Greeting them and ask them to press a tab when ready
+
+
+pygame.display.update()
+
