@@ -1,0 +1,146 @@
+
+#The modules we need 
+
+import random
+import expyriment
+
+
+#Creating an expyriment object
+exp = expyriment.design.Experiment(name="How long the time is ?")
+expyriment.control.set_develop_mode(on=True)# Switches on development mode, to comment in definitve experiment
+
+#Activating the experiment
+expyriment.control.initialize(exp)
+#expyriment.io.Screen(colour = (0, 0, 0), window_mode = 0, open_gl = 1, no_frame = True, window_size = 0)
+
+#Creating my variable names
+exp.add_data_variable_names(['Duration', 'Feedback', 'RT1', 'RT2', 'RT3'])
+
+# Preparing and preloading all the text I need
+
+hello = expyriment.stimuli.TextBox(size = (500, 500) , text="Hello , welcome to \n How long the time is ?")
+hello.preload()
+
+pascal = expyriment.stimuli.TextBox(size = (500, 500) , text = "L’un dit : il y a deux heures ; l’autre dit : il n’y a que trois quarts d’heure. Je regarde ma montre et je dis à l’un : vous vous ennuyez, et à l’autre : le temps ne vous dure guère, car il y a une heure et demie. Et je me moque de ceux qui disent que le temps me dure à moi et que j’en juge par fantaisie. Ils ne savent pas que j’en juge par ma montre.\n Blaise Pascal")
+pascal.preload()
+
+watch = expyriment.stimuli.TextBox(size = (300, 300) , text= "Remove your watch if you have one please")
+watch.preload()
+
+task = expyriment.stimuli.TextBox(size = (300, 300) , text="You'll have to discount mentally a certain amount of time and press a key as soon as you're done. Simple isn't it ? \n Press a key if you're all set, you'll start training")
+task.preload()
+
+training_text = expyriment.stimuli.TextBox(size = (500, 500) , text="Now the screen will discount 15 seconds to train you. \n Whenever you're ready to start, press a tab")
+training_text.preload()
+
+ready30 = expyriment.stimuli.TextBox(size = (500, 500) , text="Press a tab when you're ready to start counting 30 seconds")
+ready30.preload()
+
+ready60 = expyriment.stimuli.TextBox(size = (500, 500) , text="Press a tab when you're ready to start counting 60 seconds")
+ready60.preload()
+
+during_task = expyriment.stimuli.TextBox(size = (500, 500) , text="Time goes by")
+during_task.preload()
+
+feedback_1 = expyriment.stimuli.TextBox(size = (100, 100) , text= "You were", position = (-100, 100))
+feedback_2 = expyriment.stimuli.TextBox(size = (200, 200) , text= "late", position = (100, -100))
+feedback_3 = expyriment.stimuli.TextBox(size = (200, 200) , text= "seconds early", position = (100, -100))
+feedback_4 = expyriment.stimuli.TextBox(size = (200, 200) , text= "Well tried !", position = (0, -200))
+feedback_5 = expyriment.stimuli.TextBox(size = (200, 200) , text= "Bravo !!!", position = (0, -200))
+
+feedback_1.preload()
+feedback_2.preload()
+feedback_3.preload()
+feedback_4.preload()
+feedback_5.preload()
+
+
+#Actually starting the experiment, ask for a participant number
+expyriment.control.start()
+exp.screen.clear()
+
+hello.present() #Greeting the subject
+exp.keyboard.wait()
+
+pascal.present() #Pascal quotation
+exp.keyboard.wait()
+
+watch.present() #Asking them to remove their watch
+exp.keyboard.wait()
+
+task.present() #Giving them instructions
+exp.keyboard.wait()
+
+#training_text.present() #Start training
+#exp.keyboard.wait()
+#for i in range(1,15)
+#expyriment.stimuli.TextBox(size = (500, 500) , text = str(i))
+#expyriment.misc.Clock.wait(1000) #problem
+
+data = []
+half_or_full = random.choice([0,1])
+feedback = random.choice([1])
+
+data.append(half_or_full)
+data.append(feedback)
+
+if (half_or_full == 0):
+	for i in range(1,4):
+		ready30.present()
+		exp.keyboard.wait()
+	
+		during_task.present()
+		key, rt = exp.keyboard.wait()
+		data.append(rt)
+
+		if (feedback == 1):
+			if (30000 - rt > 0) :
+				feedback_1.present(update = False)
+				expyriment.stimuli.TextBox(size = (100, 100) , text = str((30000 - rt)* 0.001), position = (0, 0)).present(clear = False, update = False)
+				feedback_3.present(clear = False, update = False)
+				feedback_4.present(clear = False)
+				exp.keyboard.wait()
+				
+
+			if (30000 - rt < 0) :
+				feedback_1.present(update = False)
+				expyriment.stimuli.TextBox(size = (100, 100) , text = str((rt - 30000)* 0.001), position = (0, 0)).present(clear = False, update = False)
+				feedback_2.present(clear = False, update = False)
+				feedback_4.present(clear = False)
+				exp.keyboard.wait()
+				
+
+else :
+	for i in range(1,4):
+		ready60.present()
+        
+		exp.keyboard.wait()
+
+		during_task.present()
+		key, rt = exp.keyboard.wait()
+		data.append(rt)
+
+		if (feedback == 1):
+			if (60000 - rt > 0) :
+				feedback_1.present(update = False)
+				expyriment.stimuli.TextBox(size = (100, 100) , text = str((60000 - rt)*0.001), position = (0, 0)).present(clear = False, update = False)
+				feedback_3.present(clear = False, update = False)
+				feedback_4.present(clear = False)
+				exp.keyboard.wait()
+				
+
+			if (60000 - rt < 0) :
+				feedback_1.present(update = False)
+				expyriment.stimuli.TextBox(size = (100, 100) , text = str((rt - 60000)*0.001), position = (0, 0)).present(clear = False, update = False)
+				feedback_2.present(clear = False, update = False)
+				feedback_4.present(clear = False)
+				exp.keyboard.wait()
+				
+
+exp.data.add(data)
+
+
+#End the experiment
+expyriment.control.end()
+quit
+print(data)
