@@ -114,8 +114,8 @@ for i in range(1,ntrials): #boucle condition de durée
  On obtient les temps de réponse pour chaque essai dans la condition dans laquelle était placé le sujet, sur un document par sujet. 
  
  J'aimerais améliorer cette expérience: 
- ..* en utilisant une technique de randomisation plus raffinée qui m'assure d'avoir un certain nombre de sujets pour chaque condition
- ..* en introduisant ensuite une phase d'analyse des données
+ * en utilisant une technique de randomisation plus raffinée qui m'assure d'avoir un certain nombre de sujets pour chaque condition
+ * en introduisant ensuite une phase d'analyse des données
  
  On pourrait, afin de faciliter le recueil de données, faire essayer à chacun des sujets les deux durées en utilisant le système de blocks d'expyriment et en randomisant l'ordre des deux conditions de temps. La variable de durée deviendrait alors "within-subjects".
  
@@ -123,8 +123,8 @@ for i in range(1,ntrials): #boucle condition de durée
  
  ## Retours sur le cours
  
- ..* J'ai programmé pour la première fois de mon parcours cette année, je n'avais aucune expérience préalable.
+ * J'ai programmé pour la première fois de mon parcours cette année, je n'avais aucune expérience préalable.
  
- ..* Au cours de ces lectures j'ai pu apprendre à ouvrir un terminal et lui communiquer des instructions, sous la forme de fonctions. J'ai lu avec intérêt et appliqué les six premiers chapitres de *Automate the boring stuff with Python* et ai donc des notions sur les listes et les dictionnaires et les chemins vers les fichiers.  J'ai appris les bases des modules `expyriment` et `pygame` et ai appris à utiliser la documentation qui y était liée ainsi qu'à rechercher sur internet une partie de l'aide nécessaire à mon projet. 
+ * Au cours de ces lectures j'ai pu apprendre à ouvrir un terminal et lui communiquer des instructions, sous la forme de fonctions. J'ai lu avec intérêt et appliqué les six premiers chapitres de *Automate the boring stuff with Python* et ai donc des notions sur les listes et les dictionnaires et les chemins vers les fichiers.  J'ai appris les bases des modules `expyriment` et `pygame` et ai appris à utiliser la documentation qui y était liée ainsi qu'à rechercher sur internet une partie de l'aide nécessaire à mon projet. 
  
- ..* J'aurais souhaité avoir accès à ce cours plus tard dans mon master et envisage d'ailleurs de le reprendre l'an prochain car j'ai l'impression de ne pas en avoir tiré assez d'enseignements car mes débuts étaient difficiles et lents. Le suivre en même temps que le cours de Datacamp où j'apprenais R était assez difficile et j'ai choisi de favoriser l'apprentissage de R au détriment de celui de Python dans la perspective de mon stage. Les débutants complets pourraient se voir conseiller plutôt de prendre seulement l'un des deux cours ou d'apprendre Python dans les deux.
+ * J'aurais souhaité avoir accès à ce cours plus tard dans mon master et envisage d'ailleurs de le reprendre l'an prochain car j'ai l'impression de ne pas en avoir tiré assez d'enseignements car mes débuts étaient difficiles et lents. Le suivre en même temps que le cours de Datacamp où j'apprenais R était assez difficile et j'ai choisi de favoriser l'apprentissage de R au détriment de celui de Python dans la perspective de mon stage. Les débutants complets pourraient se voir conseiller plutôt de prendre seulement l'un des deux cours ou d'apprendre Python dans les deux.
