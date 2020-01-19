@@ -23,10 +23,13 @@ La tâche consiste à décompter mentalement une durée de trente ou soixante se
  
  ```
  hello = expyriment.stimuli.TextScreen( heading ="Hello , welcome to"  , text= "How long the time is ?", text_size = 50, text_bold = True, text_italic= True, text_colour= (0,0, 255), heading_colour=(0, 255, 255), background_colour= (255,255,255) )
-hello.preload()
 
 watch = expyriment.stimuli.TextBox(size = (300, 300) , text= "Remove your watch if you have one please and stay stil during the experiment", background_colour = (255,255,255), text_colour= (0,0, 255))
-watch.preload()
+
+texts = [hello, pascal, watch...]
+
+for item in texts:
+	item.preload()
 
 ```
 ## Questions, entraînement et randomisation des conditions
@@ -65,36 +68,43 @@ data.append(feedback)
 ```
 ## Tâche
 
-La tâche est exécutée selon les conditions par deux boucles `if` portant sur les variables `half_or_full` et `feedback`. Le nombre d'essais déterminé en début d'expérience est exécuté par une boucle `for`.
+Le nombre d'essais déterminé en début d'expérience est exécuté par une boucle `for`. La tâche est exécutée selon les conditions par trois boucles `if` imbriquées portant sur les variables `half_or_full`, `feedback` et de nouveau `half_or_full`. 
 
 ```
-if (half_or_full == 0):
-	for i in range(0,ntrials):
-		ready30.present()
-		exp.keyboard.wait()
+for i in range(1,ntrials): #boucle condition de durée
+    if (half_or_full == 0):
+        ready30.present()
+        
+    else : ready60.present()
+        
+    exp.keyboard.wait()
+    during_task.present()
+    key, rt = exp.keyboard.wait()
+    data.append(rt)
+
+    #boucle condition de retour
+    if (feedback == 1): 
+        feedback_1.present(update = False)
+	#deuxième boucle sur la durée
+        if (half_or_full == 0):
+            expyriment.stimuli.TextBox(size = (100, 100) , text = str((30000 - rt)* 0.001), position = (0, 0)).present(clear = False, update = False)
+            if (30000 - rt > 0) :
+                feedback_3.present(clear = False, update = False)
 	
-		during_task.present()
-		key, rt = exp.keyboard.wait()
-		data.append(rt)
-  
-  if (feedback == 1):
-			if (30000 - rt > 0) :
-				feedback_1.present(update = False)
-				expyriment.stimuli.TextBox(size = (100, 100) , text = str((30000 - rt)* 0.001), position = (0, 0)).present(clear = False, update = False)
-				feedback_3.present(clear = False, update = False)
-				feedback_4.present(clear = False)
-				exp.keyboard.wait()
-   
-    if (30000 - rt < 0) :
-				feedback_1.present(update = False)
-				expyriment.stimuli.TextBox(size = (100, 100) , text = str((rt - 30000)* 0.001), position = (0, 0)).present(clear = False, update = False)
-				feedback_2.present(clear = False, update = False)
-				feedback_4.present(clear = False)
-				exp.keyboard.wait()
-    
- else :
-	for i in range(0,ntrials):
-		ready60.present() ...
+            else :
+                feedback_2.present(clear = False, update = False)
+				
+        else :
+            expyriment.stimuli.TextBox(size = (100, 100) , text = str((60000 - rt)*0.001), position = (0, 0)).present(clear = False, update = False)
+             
+            if (60000 - rt > 0) :
+                feedback_3.present(clear = False, update = False)
+                
+            else :
+                feedback_2.present(clear = False, update = False)
+                
+          feedback_4.present(clear = False)
+          exp.keyboard.wait()
         
  ```
  On différencie le feedback selon si le sujet était en retard ou en avance sur l'horloge. Pour présenter les différents textes à l'écran il a fallu régler leurs positions relativement au centre de l'écran et faire en sorte qu'ils s'affichent tous en même temps par l'utilisation des arguments `clear` et `update`.
@@ -117,4 +127,4 @@ if (half_or_full == 0):
  
  ..* Au cours de ces lectures j'ai pu apprendre à ouvrir un terminal et lui communiquer des instructions, sous la forme de fonctions. J'ai lu avec intérêt et appliqué les six premiers chapitres de *Automate the boring stuff with Python* et ai donc des notions sur les listes et les dictionnaires et les chemins vers les fichiers.  J'ai appris les bases des modules `expyriment` et `pygame` et ai appris à utiliser la documentation qui y était liée ainsi qu'à rechercher sur internet une partie de l'aide nécessaire à mon projet. 
  
- ..* J'aurais souhaité avoir accès à ce cours plus tard dans mon master et envisage d'ailleurs de le reprendre l'an prochain car j'ai l'impression de ne pas en avoir tiré assez d'enseignements car mes débuts étaient difficiles et lents. 
+ ..* J'aurais souhaité avoir accès à ce cours plus tard dans mon master et envisage d'ailleurs de le reprendre l'an prochain car j'ai l'impression de ne pas en avoir tiré assez d'enseignements car mes débuts étaient difficiles et lents. Le suivre en même temps que le cours de Datacamp où j'apprenais R était assez difficile et j'ai choisi de favoriser l'apprentissage de R au détriment de celui de Python dans la perspective de mon stage. Les débutants complets pourraient se voir conseiller plutôt de prendre seulement l'un des deux cours ou d'apprendre Python dans les deux.
