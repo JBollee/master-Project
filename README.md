@@ -1,3 +1,12 @@
+# How long the time is to you ?
+
+## Introduction
+
+Cette expérience vise à explorer la capacité de sujets à tenir un rythme, ici celui des secondes, sans repère extérieur objectif et certains déterminants de la réussite à cette tâche: la durée à tenir, l'âge, l'entraînement, la pratique de la musique et les retours sur performance. Elle ne s'appuie pas sur des acquis académiques en sciences cognitives, elle ne pourrait que constituer la première phase d'une série d'expériences sur cette capacité. 
+
+Elle utilise des fonctions basiques du module expyriment dans Python.
+
+La tâche demandée aux sujets est de décompter
 
  My project’s name is “How long the time is” and it aims to assess how regular or precise people can keep in counting seconds, whether it is influenced by the amount of seconds discounted and whether feedback helps them improve or not. 
 
