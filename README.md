@@ -12,14 +12,41 @@ La tâche consiste à décompter mentalement une durée de trente ou soixante se
  Table des matières:
  ```
  1- Création des stimuli textuels
- 2- Démarrage de l'expérience et randomisation des conditions
- 3- Entraînement
- 4- Tâche
- 5- Retours
- 6- Perspective
- 7- Retours sur le cours
+ 2- Entraînement et randomisation des conditions
+ 3- Tâche
+ 4- Retours
+ 5- Perspective
+ 6- Retours sur le cours
  ```
+ ## Création et chargement des stimuli textuels
  
+ Les sujets reçoivent un certain nombre d'instructions et certaines correspondent au début du décompte, il faut donc que leur apparition soit rapide. Elles sont chargées pour minimiser le délai de présentation.
+ 
+ ```
+ hello = expyriment.stimuli.TextScreen( heading ="Hello , welcome to"  , text= "How long the time is ?", text_size = 50, text_bold = True, text_italic= True, text_colour= (0,0, 255), heading_colour=(0, 255, 255), background_colour= (255,255,255) )
+hello.preload()
+
+watch = expyriment.stimuli.TextBox(size = (300, 300) , text= "Remove your watch if you have one please and stay stil during the experiment", background_colour = (255,255,255), text_colour= (0,0, 255))
+watch.preload()
+
+```
+## Entraînement et randomisation des conditions
+
+La phase d'entraînement vise à donner aux sujets la possibilité de suivre le rythme avec un référent extérieur. Le programme affiche à l'écran le nombre de secondes écoulées depuis le départ donné par la dernière frappe de touche. 
+ ```
+ exp.screen.clear()
+for i in range(0,15):
+    expyriment.stimuli.TextLine(text = str(i), text_size = 200).present()
+    exp.clock.wait(1000)
+```
+ Il faut noter qu'utiliser le clavier peut occasionner des délais et une imprécision dans les temps de réponse de l'ordre de 20 ms, selon la [documentation expyriment](https://docs.expyriment.org/Timing.html). On le prendra en compte dans l'analyse des résultats.
+ 
+J'utilise le module `random` pour assigner les conditions :
+```
+half_or_full = random.choice([0,1])
+feedback = random.choice([0,1])
+```
+Et j'enregistre les conditions du sujet dans 
 #Code to be written, step by step
  
  Before first step: -Open the file “Results.csv”, write first line “Number; Name; Time discounted; Feedback; Time_1; First_RT; Time_2; Second_RT ; Time_3 ; Third_RT ” 
