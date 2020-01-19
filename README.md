@@ -2,19 +2,24 @@
 
 ## Introduction
 
-Cette expérience vise à explorer la capacité de sujets à tenir un rythme, ici celui des secondes, sans repère extérieur objectif et certains déterminants de la réussite à cette tâche: la durée à tenir, l'âge, l'entraînement, la pratique de la musique et les retours sur performance. Elle ne s'appuie pas sur des acquis académiques en sciences cognitives, elle ne pourrait que constituer la première phase d'une série d'expériences sur cette capacité. 
+Cette expérience vise à explorer la capacité de sujets à tenir un rythme, ici celui des secondes, sans repère extérieur objectif et certains déterminants de la réussite à cette tâche: principalement la durée à tenir , l'entraînement et les retours sur performance, mais on explorera aussi les corrélations avec l'âge et la pratique de la musique . Elle ne s'appuie pas sur des acquis académiques en sciences cognitives, elle ne pourrait que constituer la première phase d'une série d'expériences sur cette capacité. 
 
 Elle utilise des fonctions basiques du module expyriment dans Python.
 
-La tâche demandée aux sujets est de décompter
+L'expérience a deux variables indépendantes, donc quatre conditions, et chaque sujet en expérimente une seule. La première variable est la durée à décompter, la seconde est la présence ou l'absence de retours sur la performance. Les conditions sont attribuées au hasard à chaque sujet. Elle comporte une phase d'entraînement où les sujets peuvent décompter quinze secondes avec un décompte objectif sur l'ordinateur.
+La tâche consiste à décompter mentalement une durée de trente ou soixante secondes et à appuyer sur une touche dès que le temps est, selon ce décompte, écoulé. Dans la condition avec retour, les sujets reçoivent ensuite des informations sur leur performance. La tâche est effectuée trois fois.  
 
- My project’s name is “How long the time is” and it aims to assess how regular or precise people can keep in counting seconds, whether it is influenced by the amount of seconds discounted and whether feedback helps them improve or not. 
-
-# Experimental design: 
-2x2 conditions, randomization of the time condition to avoid order effects (but for a further refinement I could choose another method of randomization) and random assignation of the feedback condition. 
-
-For now I have written a resume of my steps but I haven’t set the if loop required to make feedback optional.
-
+ Table des matières:
+ ```
+ 1- Création des stimuli textuels
+ 2- Démarrage de l'expérience et randomisation des conditions
+ 3- Entraînement
+ 4- Tâche
+ 5- Retours
+ 6- Perspective
+ 7- Retours sur le cours
+ ```
+ 
 #Code to be written, step by step
  
  Before first step: -Open the file “Results.csv”, write first line “Number; Name; Time discounted; Feedback; Time_1; First_RT; Time_2; Second_RT ; Time_3 ; Third_RT ” 
