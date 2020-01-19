@@ -12,11 +12,10 @@ La tâche consiste à décompter mentalement une durée de trente ou soixante se
  Table des matières:
  ```
  1- Création des stimuli textuels
- 2- Entraînement et randomisation des conditions
- 3- Tâche
- 4- Retours
- 5- Perspective
- 6- Retours sur le cours
+ 2- Questions, entraînement et randomisation des conditions
+ 3- Tâche et retours
+ 4- Perspectives
+ 5- Retours sur le cours
  ```
  ## Création et chargement des stimuli textuels
  
@@ -30,7 +29,18 @@ watch = expyriment.stimuli.TextBox(size = (300, 300) , text= "Remove your watch 
 watch.preload()
 
 ```
-## Entraînement et randomisation des conditions
+## Questions, entraînement et randomisation des conditions
+
+On souhaite connaître l'âge et l'éventuelle pratique musicale des sujets, des facteurs pour lesquels on pourait établir des corrélations avec la performance. Pour l'âge j'utilise la fonction `expyriment.io.TextInput()` et pour la pratique musicale qui est une question fermée j'utilise deux touches du clavier :
+```
+age = expyriment.io.TextInput(message="How old are you please ?", message_text_size = 30, message_colour =(0, 255, 255), user_text_size = 20, user_text_colour = (255, 255, 0)).get()
+
+data.append(age)
+
+musician.present()
+key, rt = exp.keyboard.wait()
+data.append(key)
+```
 
 La phase d'entraînement vise à donner aux sujets la possibilité de suivre le rythme avec un référent extérieur. Le programme affiche à l'écran le nombre de secondes écoulées depuis le départ donné par la dernière frappe de touche. 
  ```
@@ -46,60 +56,65 @@ J'utilise le module `random` pour assigner les conditions :
 half_or_full = random.choice([0,1])
 feedback = random.choice([0,1])
 ```
-Et j'enregistre les conditions du sujet dans 
-#Code to be written, step by step
+Et j'enregistre les conditions du sujet dans les données de l'expérience:
+
+```
+data = []
+data.append(half_or_full)
+data.append(feedback)
+```
+## Tâche
+
+La tâche est exécutée selon les conditions par deux boucles `if` portant sur les variables `half_or_full` et `feedback`. Le nombre d'essais déterminé en début d'expérience est exécuté par une boucle `for`.
+
+```
+if (half_or_full == 0):
+	for i in range(0,ntrials):
+		ready30.present()
+		exp.keyboard.wait()
+	
+		during_task.present()
+		key, rt = exp.keyboard.wait()
+		data.append(rt)
+  
+  if (feedback == 1):
+			if (30000 - rt > 0) :
+				feedback_1.present(update = False)
+				expyriment.stimuli.TextBox(size = (100, 100) , text = str((30000 - rt)* 0.001), position = (0, 0)).present(clear = False, update = False)
+				feedback_3.present(clear = False, update = False)
+				feedback_4.present(clear = False)
+				exp.keyboard.wait()
+   
+    if (30000 - rt < 0) :
+				feedback_1.present(update = False)
+				expyriment.stimuli.TextBox(size = (100, 100) , text = str((rt - 30000)* 0.001), position = (0, 0)).present(clear = False, update = False)
+				feedback_2.present(clear = False, update = False)
+				feedback_4.present(clear = False)
+				exp.keyboard.wait()
+    
+ else :
+	for i in range(0,ntrials):
+		ready60.present() ...
+        
+ ```
+ On différencie le feedback selon si le sujet était en retard ou en avance sur l'horloge. Pour présenter les différents textes à l'écran il a fallu régler leurs positions relativement au centre de l'écran et faire en sorte qu'ils s'affichent tous en même temps par l'utilisation des arguments `clear` et `update`.
  
- Before first step: -Open the file “Results.csv”, write first line “Number; Name; Time discounted; Feedback; Time_1; First_RT; Time_2; Second_RT ; Time_3 ; Third_RT ” 
-
-1. Step 1 (optional): 
-Greeting the participant
-
-2. Step 2 (Preparation): 
-- Telling them to remove their watch if they have one (and click when they have finished)
--	Telling them what they’ll have to do: discount in their minds one minute, half a minute or 15 seconds and click when they’re done (ie as soon as they think time is over). Tell them to click if they have understood.
--	Tell them the computer is going to count fifteen seconds with them to train them. Tell them to click when they want to start training
-
-3. Step 3 (Training): 
-- Display a clock/numbers of seconds during 15 seconds – 
--	Ask them to click whenever they want to start the task
-
-4. Step 4 (randomizing the the feedback) : 
-- add a line to the csv file 
--	Sort a number (0 or 1), name this variable “Feedback” and write it to the csv file
-
-5. Step 5.1 (randomizing the amount of time discounted for 1st task): 
-- [Sort a number (30 or 60),] name this variable “time_1” and write it to the csv file
-
- Step 5.2 (1st Task): 
--[Display a black screen during three seconds. Display “When you want the “time”seconds to start, press a tab”
--	From the moment the participant presses, count the time 
--	Stop counting when the participant presses another tab]- Time is named RT1
--	Write in the csv file: “; RT1” 
-#IF Feedback == 1, Step 5.3- (OPTIONNAL- Feedback): 
-[- If RT1>time, display “You were (RT1-time) seconds late, well tried!”
--	If RT1<time, display “You were (time-RT1) seconds early, well tried!”
--	If abs(RT1-time) <2, display “Bravo !”
--	Ask to click whenever they want to start again]
-
-6. ELSE Step 6.1:  
-cf step 5.1 […] part (I shall make it a function) name this variable “time_2” and write it to the csv file 
+ ## Résultats et perspectives
  
-  6.2: (2nd task): 
- Cf 5.2, […] part (I shall make it a function)
--	- Time is named RT2
--	Write in the csv file: “; RT2”
-IF Feedback = 1, Step 6.3 (OPTIONNAL- Feedback): cf 5.3, […] will be made a function and applied to RT2
-
-7. Step 7.1: 
-cf step 5.1 […]  part (I shall make it a function) name this variable “time_3” and write it to the csv file 
-
-Step 7.2 (3rd task): Cf 5.2, […]  part (I shall make it a function)
-- Time is named RT3 -Write in the csv file: “; RT3”
- IF Feedback = 1, Step 7.3 (OPTIONNAL- Feedback): cf 5.3, […]  part will be made a function and applied to RT2
-
-8. Step 8 (End the task) - Ask to click when they want to end the task and see their results
-- Display a screen with their three results : “You were first (if RT1>time display “(RT1-time_1) seconds late”, if not display “(time_1-RT1) seconds early”) then …”
--	Then display “thanks”
--	And close the csv file.
-9. Step 9 (Retour au début ou fin): - Back to step 1
--	Add a special tab to press to end the collection of data and close the csv file
+ On obtient les temps de réponse pour chaque essai dans la condition dans laquelle était placé le sujet, sur un document par sujet. 
+ 
+ J'aimerais améliorer cette expérience: 
+ ..* en utilisant une technique de randomisation plus raffinée qui m'assure d'avoir un certain nombre de sujets pour chaque condition
+ ..* en introduisant ensuite une phase d'analyse des données
+ 
+ On pourrait, afin de faciliter le recueil de données, faire essayer à chacun des sujets les deux durées en utilisant le système de blocks d'expyriment et en randomisant l'ordre des deux conditions de temps. La variable de durée deviendrait alors "within-subjects".
+ 
+ Enfin j'aimerais tester d'autres hypothèses, concernant la durée par exemple. On pourrait introduire des essais "sondes" c'est-à-dire des essais où le sujet devrait décompter un certain temps mais serait interrompu avant la fin de ce temps et interrogé sur la seconde à laquelle il se situait. Cela permettrait des estimations plus précises du moment où occure un décalage s'il s'en produit un. 
+ 
+ ## Retours sur le cours
+ 
+ ..* J'ai programmé pour la première fois de mon parcours cette année, je n'avais aucune expérience préalable.
+ 
+ ..* Au cours de ces lectures j'ai pu apprendre à ouvrir un terminal et lui communiquer des instructions, sous la forme de fonctions. J'ai lu avec intérêt et appliqué les six premiers chapitres de *Automate the boring stuff with Python* et ai donc des notions sur les listes et les dictionnaires et les chemins vers les fichiers.  J'ai appris les bases des modules `expyriment` et `pygame` et ai appris à utiliser la documentation qui y était liée ainsi qu'à rechercher sur internet une partie de l'aide nécessaire à mon projet. 
+ 
+ ..* J'aurais souhaité avoir accès à ce cours plus tard dans mon master et envisage d'ailleurs de le reprendre l'an prochain car j'ai l'impression de ne pas en avoir tiré assez d'enseignements car mes débuts étaient difficiles et lents. 
